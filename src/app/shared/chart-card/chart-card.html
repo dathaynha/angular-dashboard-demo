@@ -1,0 +1,105 @@
+<section class="card" [attr.aria-busy]="state() === 'loading' || stale()">
+  <header class="head">
+    <div class="titles">
+      <h2>{{ heading() }}</h2>
+      @if (subtitle()) {
+        <p>{{ subtitle() }}</p>
+      }
+    </div>
+    <div class="actions">
+      <ng-content select="[cardActions]" />
+      @if (table()) {
+        <button
+          type="button"
+          class="btn btn--quiet btn--icon"
+          [attr.aria-pressed]="view() === 'table'"
+          [attr.aria-label]="view() === 'chart' ? 'Show as table' : 'Show as chart'"
+          [title]="view() === 'chart' ? 'Show as table' : 'Show as chart'"
+          [disabled]="state() !== 'ready'"
+          (click)="toggleView()"
+        >
+          <i [appIcon]="view() === 'chart' ? 'table' : 'chart'"></i>
+        </button>
+        <button
+          type="button"
+          class="btn btn--quiet btn--icon"
+          aria-label="Download CSV"
+          title="Download CSV"
+          [disabled]="state() !== 'ready'"
+          (click)="exportCsv()"
+        >
+          <i appIcon="download"></i>
+        </button>
+      }
+    </div>
+  </header>
+
+  <div class="body" [style.height.px]="bodyHeight() ?? (state() === 'ready' ? null : 320)">
+    @switch (state()) {
+      @case ('loading') {
+        <div class="skeleton-chart" role="status">
+          <span class="visually-hidden">Loading {{ heading() }}</span>
+          @for (h of [55, 80, 40, 95, 65, 75, 35, 85, 60, 70]; track $index) {
+            <span class="skeleton" [style.height.%]="h"></span>
+          }
+        </div>
+      }
+      @case ('empty') {
+        <app-state-message heading="No data" [text]="emptyText()">
+          <ng-content select="[emptyActions]" />
+        </app-state-message>
+      }
+      @case ('error') {
+        <app-state-message kind="error" heading="Couldn't load this chart" [text]="errorText()">
+          <button type="button" class="btn" (click)="retry.emit()">
+            <i appIcon="refresh"></i> Retry
+          </button>
+        </app-state-message>
+      }
+      @default {
+        <div class="ready" [class.is-stale]="stale()">
+          @if (view() === 'table' && table(); as data) {
+            <div class="table-wrap">
+              <table>
+                <caption class="visually-hidden">
+                  {{
+                    heading()
+                  }}
+                </caption>
+                <thead>
+                  <tr>
+                    @for (column of data.columns; track $index) {
+                      <th scope="col">{{ column }}</th>
+                    }
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (row of data.rows; track $index) {
+                    <tr>
+                      @for (value of row; track $index) {
+                        <td>{{ value ?? '–' }}</td>
+                      }
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          } @else {
+            <ng-content />
+          }
+        </div>
+      }
+    }
+  </div>
+
+  <footer class="foot">
+    <div class="legend">
+      @if (state() === 'ready' && view() === 'chart') {
+        <ng-content select="[cardLegend]" />
+      }
+    </div>
+    @if (library()) {
+      <span class="library">{{ library() }}</span>
+    }
+  </footer>
+</section>

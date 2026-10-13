@@ -1,0 +1,141 @@
+<app-intro />
+
+<div class="filters">
+  <app-filter-bar
+    [filters]="store.filters()"
+    (filtersChange)="store.setFilters($event)"
+    [controls]="['range', 'services']"
+  />
+  <p class="as-of">{{ asOf() }}</p>
+</div>
+
+<section id="overview" aria-labelledby="overview-title">
+  <header class="section-head">
+    <h2 id="overview-title">Key figures</h2>
+    <p>Each against the previous period, with its trend. The sparklines are d3.</p>
+  </header>
+  <div class="kpis">
+    @for (label of kpiSlots; track label; let i = $index) {
+      <app-kpi-card
+        [kpi]="store.kpiLoad.state() === 'ready' ? store.kpis.value()![i] : null"
+        [state]="store.kpiLoad.state()"
+        [stale]="store.kpiLoad.stale()"
+        [label]="label"
+        [period]="store.period()"
+        (retry)="store.reload()"
+      />
+    }
+  </div>
+</section>
+
+<section id="traffic" aria-labelledby="traffic-title" class="stack">
+  <header class="section-head">
+    <h2 id="traffic-title">Traffic</h2>
+    <p>
+      Standard charts with a lot of data, so ECharts: canvas rendering, zoom and tooltips built in.
+      Try a 30-day range, then scroll inside the chart to zoom.
+    </p>
+  </header>
+  <app-traffic-chart
+    [points]="store.traffic.hasValue() ? store.traffic.value() : undefined"
+    [range]="store.query().range"
+    [state]="store.trafficLoad.state()"
+    [stale]="store.trafficLoad.stale()"
+    [errorText]="store.trafficLoad.errorText()"
+    (retry)="store.reload()"
+  />
+  <div class="pair">
+    <app-service-chart
+      [data]="store.byService.hasValue() ? store.byService.value() : undefined"
+      [range]="store.query().range"
+      [state]="store.byServiceLoad.state()"
+      [stale]="store.byServiceLoad.stale()"
+      [errorText]="store.byServiceLoad.errorText()"
+      (retry)="store.reload()"
+    />
+    <app-status-chart
+      [counts]="store.statuses.hasValue() ? store.statuses.value() : undefined"
+      [state]="store.statusLoad.state()"
+      [stale]="store.statusLoad.stale()"
+      [errorText]="store.statusLoad.errorText()"
+      (retry)="store.reload()"
+    />
+  </div>
+</section>
+
+<section id="flow" aria-labelledby="flow-title" class="stack">
+  <header class="section-head">
+    <h2 id="flow-title">Request flow and latency</h2>
+    <p>
+      No library draws this Sankey the way the data needs, so it is custom d3. Hover a service to
+      trace its paths, or pick services in the filter to see only theirs.
+    </p>
+  </header>
+  <app-flow-chart
+    [graph]="store.flow.hasValue() ? store.flow.value() : undefined"
+    [state]="store.flowLoad.state()"
+    [stale]="store.flowLoad.stale()"
+    [errorText]="store.flowLoad.errorText()"
+    (retry)="store.reload()"
+  />
+  <app-latency-heatmap
+    [cells]="store.heatmap.hasValue() ? store.heatmap.value() : undefined"
+    [range]="store.query().range"
+    [state]="store.heatmapLoad.state()"
+    [stale]="store.heatmapLoad.stale()"
+    [errorText]="store.heatmapLoad.errorText()"
+    (retry)="store.reload()"
+  />
+</section>
+
+<section id="requests" aria-labelledby="requests-title" class="stack">
+  <header class="section-head">
+    <h2 id="requests-title">Request log</h2>
+    <p>
+      One reusable table: search, filters, sorting and paging, the way a server-side API does them,
+      all kept in the URL.
+    </p>
+  </header>
+  <div class="card">
+    <div class="toolbar">
+      <app-search-field
+        class="table-search"
+        label="Search path, service, status or trace id"
+        [value]="store.query().q"
+        (valueChange)="store.setFilters({ ...store.filters(), q: $event })"
+      />
+      <app-multi-select
+        label="Status"
+        [options]="statusOptions"
+        [selected]="store.query().statuses"
+        (selectedChange)="store.setFilters({ ...store.filters(), statuses: $event })"
+      />
+    </div>
+    <app-data-table
+      caption="Requests"
+      [columns]="columns"
+      [rows]="store.rows()"
+      [rowKey]="rowKey"
+      [state]="store.requestLoad.state()"
+      [stale]="store.requestLoad.stale()"
+      [errorText]="store.requestLoad.errorText()"
+      [sort]="store.query().sort"
+      [dir]="store.query().dir"
+      [page]="store.query().page"
+      [pageSize]="store.query().size"
+      [pageSizes]="pageSizes"
+      [total]="store.total()"
+      (sortChange)="sortBy($event)"
+      (pageChange)="store.set({ page: $event })"
+      (pageSizeChange)="store.set({ size: $event, page: 1 })"
+      (retry)="store.reload()"
+    >
+      <ng-template appCell="statusCode" let-row>
+        <span class="status">
+          <span class="dot" [style.background]="statusColor(row.statusCode)"></span>
+          {{ row.statusCode }}
+        </span>
+      </ng-template>
+    </app-data-table>
+  </div>
+</section>

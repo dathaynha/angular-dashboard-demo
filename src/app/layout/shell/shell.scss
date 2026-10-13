@@ -1,0 +1,144 @@
+@use '../../../styles/glass';
+
+// The rail's column is reserved on the left of the content, so nothing slides under it.
+$rail-gap: 112px;
+$content: 1240px;
+
+:host {
+  display: block;
+  // Where the rail sits: beside the content box, or 16px in on a narrower screen.
+  // The demo panel opens beside the rail, so it reads this too.
+  --rail-left: max(16px, calc(50% - #{($content + $rail-gap) * 0.5} + 8px));
+  --rail-width: 80px;
+}
+
+main {
+  width: 100%;
+  max-width: $content + $rail-gap;
+  margin: 0 auto;
+  padding: 40px 32px 64px $rail-gap;
+  outline: 0;
+}
+
+// Glass is for chrome, and the rail is the only chrome. Denser than the
+// default glass so it reads clearly over any section.
+.dock {
+  position: fixed;
+  top: 50%;
+  left: var(--rail-left);
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: center;
+  padding: 8px;
+  transform: translateY(-50%);
+  @include glass.surface;
+  border-color: var(--card-border);
+  border-radius: 20px;
+  background-color: color-mix(in srgb, var(--card-bg) 82%, transparent);
+  box-shadow: 0 12px 32px color-mix(in srgb, var(--datha-surface-950) 14%, transparent);
+}
+
+.dock__item {
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  gap: 4px;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 56px;
+  padding: 0;
+  border: 0;
+  border-radius: 14px;
+  background: none;
+  color: var(--page-copy);
+  font-size: 11px;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+
+  i {
+    font-size: 19px;
+  }
+
+  &:hover {
+    background: color-mix(in srgb, var(--page-ink) 7%, transparent);
+    color: var(--page-ink);
+    text-decoration: none;
+  }
+
+  &.is-active {
+    background: var(--page-ink);
+    color: var(--card-bg);
+  }
+}
+
+.dock__divider {
+  width: 32px;
+  height: 1px;
+  margin: 4px 0;
+  background: var(--card-border);
+}
+
+.icon-moon {
+  display: none;
+}
+
+:host-context(.dark) {
+  .icon-sun {
+    display: none;
+  }
+
+  .icon-moon {
+    display: block;
+  }
+}
+
+.skip-link {
+  position: fixed;
+  top: 8px;
+  left: 8px;
+  z-index: 50;
+  padding: 8px 14px;
+  border-radius: 10px;
+  background: var(--card-bg);
+  transform: translateY(-200%);
+
+  &:focus {
+    transform: none;
+  }
+}
+
+// A phone has no room beside the content: the rail becomes a bar along the bottom.
+@media (max-width: 40rem) {
+  main {
+    padding: 24px 16px 104px;
+  }
+
+  .dock {
+    top: auto;
+    bottom: 12px;
+    left: 50%;
+    flex-direction: row;
+    gap: 2px;
+    padding: 6px;
+    transform: translateX(-50%);
+  }
+
+  .dock__item {
+    width: 52px;
+    height: 50px;
+    font-size: 10px;
+  }
+
+  .dock__divider {
+    width: 1px;
+    height: 28px;
+    margin: 0 4px;
+  }
+}

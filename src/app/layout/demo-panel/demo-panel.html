@@ -1,0 +1,34 @@
+<button
+  type="button"
+  class="demo-trigger"
+  popovertarget="demo-panel"
+  [class.is-altered]="scenario() !== 'normal'"
+  [attr.aria-label]="'Demo state: ' + label()"
+  title="Show loading, empty and error states"
+>
+  <span class="dot" aria-hidden="true"></span>
+  <!-- The dot carries the state (green normal, amber staged); the name is in the label. -->
+  <span class="text">Demo</span>
+</button>
+
+<div id="demo-panel" class="panel" popover>
+  <fieldset>
+    <legend>How the mock API answers</legend>
+    @for (option of options; track option.value) {
+      <label class="option">
+        <input
+          type="radio"
+          name="demo-scenario"
+          [value]="option.value"
+          [checked]="scenario() === option.value"
+          (change)="choose(option.value)"
+        />
+        <span>
+          <span class="option__label">{{ option.label }}</span>
+          <span class="option__hint">{{ option.hint }}</span>
+        </span>
+      </label>
+    }
+  </fieldset>
+  <p class="note">All data is generated in the browser from a fixed seed. Nothing here is real.</p>
+</div>

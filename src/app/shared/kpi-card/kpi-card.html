@@ -1,0 +1,39 @@
+<article class="card" [class.is-stale]="stale()" [attr.aria-busy]="state() === 'loading'">
+  @if (state() === 'loading') {
+    <span class="visually-hidden" role="status">Loading {{ name() }}</span>
+    <span class="skeleton" style="width: 40%; height: 14px"></span>
+    <span class="skeleton" style="width: 60%; height: 30px; margin-top: 8px"></span>
+    <span class="skeleton" style="width: 50%; height: 14px; margin-top: 8px"></span>
+    <span class="skeleton" style="height: 36px; margin-top: auto"></span>
+  } @else {
+    <h3 class="label">{{ name() }}</h3>
+    <p class="value" [title]="exact()">{{ value() }}</p>
+
+    @switch (state()) {
+      @case ('empty') {
+        <p class="note">No data in this range</p>
+      }
+      @case ('error') {
+        <p class="note is-error" role="alert">
+          <i appIcon="alert"></i> Couldn't load
+          <button type="button" class="link" (click)="retry.emit()">Retry</button>
+        </p>
+      }
+      @default {
+        @if (delta(); as d) {
+          <p class="delta" [attr.data-tone]="d.tone">
+            @if (d.direction !== 'flat') {
+              <i [appIcon]="d.direction === 'up' ? 'arrow-up' : 'arrow-down'"></i>
+            }
+            <span class="num">{{ d.text }}</span>
+            <span class="period">vs {{ period() }}</span>
+            <span class="visually-hidden">({{ d.meaning }})</span>
+          </p>
+        }
+        @if (kpi(); as k) {
+          <app-sparkline class="spark" [values]="k.trend" [label]="k.label" [format]="format()" />
+        }
+      }
+    }
+  }
+</article>

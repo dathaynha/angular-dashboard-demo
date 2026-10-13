@@ -1,0 +1,130 @@
+:host {
+  display: block;
+  min-width: 0;
+}
+
+// The table scrolls inside its card on a narrow screen; the page never does.
+.scroll {
+  overflow-x: auto;
+  transition: opacity 0.2s ease;
+
+  &.is-stale {
+    opacity: 0.5;
+  }
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+th,
+td {
+  height: 44px;
+  padding: 0 12px;
+  border-bottom: 1px solid var(--card-border);
+  text-align: start;
+  white-space: nowrap;
+
+  &.is-end {
+    text-align: end;
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+th {
+  height: 40px;
+  color: var(--page-muted);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.sort {
+  display: inline-flex;
+  gap: 4px;
+  align-items: center;
+  margin: 0 -6px;
+  padding: 4px 6px;
+  border: 0;
+  border-radius: 6px;
+  background: none;
+  color: inherit;
+  font-weight: inherit;
+  cursor: pointer;
+
+  i {
+    opacity: 0.5;
+  }
+
+  &:hover,
+  &.is-active {
+    color: var(--page-ink);
+
+    i {
+      opacity: 1;
+    }
+  }
+}
+
+.row {
+  cursor: pointer;
+
+  &:hover {
+    background: color-mix(in srgb, var(--page-ink) 4%, transparent);
+  }
+
+  &:focus-visible {
+    outline-offset: -2px;
+  }
+
+  &.is-selected {
+    background: var(--page-tint);
+    box-shadow: inset 3px 0 0 var(--datha-primary-600);
+  }
+}
+
+.skeleton-row .skeleton {
+  width: 70%;
+  height: 12px;
+}
+
+.message-row td {
+  height: 280px;
+  white-space: normal;
+}
+
+.pager {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 12px;
+  color: var(--page-copy);
+  font-size: 13px;
+}
+
+.range {
+  margin-right: auto;
+}
+
+.size {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+
+  select {
+    height: 32px;
+    padding: 0 8px;
+    border: 1px solid var(--card-border);
+    border-radius: 8px;
+    background: var(--card-bg);
+  }
+}
+
+.steps {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+}

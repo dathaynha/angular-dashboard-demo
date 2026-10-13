@@ -1,0 +1,47 @@
+@if (has('range')) {
+  <div class="segmented" role="radiogroup" aria-label="Time range">
+    @for (range of ranges; track range.key) {
+      <button
+        type="button"
+        role="radio"
+        [attr.aria-checked]="filters().range === range.key"
+        (click)="setRange(range.key)"
+      >
+        {{ range.label }}
+      </button>
+    }
+  </div>
+}
+
+@if (has('search')) {
+  <app-search-field
+    class="search"
+    [label]="searchLabel()"
+    [value]="filters().q"
+    (valueChange)="patch({ q: $event })"
+  />
+}
+
+@if (has('services')) {
+  <app-multi-select
+    label="Service"
+    [options]="serviceOptions"
+    [selected]="filters().services"
+    (selectedChange)="patch({ services: $event })"
+  />
+}
+
+@if (has('statuses')) {
+  <app-multi-select
+    label="Status"
+    [options]="statusOptions"
+    [selected]="filters().statuses"
+    (selectedChange)="patch({ statuses: $event })"
+  />
+}
+
+@if (filtered()) {
+  <button type="button" class="btn btn--quiet" (click)="clear()">
+    <i appIcon="close"></i> Clear filters
+  </button>
+}

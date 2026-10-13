@@ -1,0 +1,81 @@
+:host {
+  position: relative;
+  display: inline-block;
+}
+
+.trigger {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+  height: 36px;
+  padding: 0 10px 0 12px;
+  border: 1px solid var(--card-border);
+  border-radius: 10px;
+  background: var(--card-bg);
+  font-size: 13px;
+  cursor: pointer;
+
+  &.has-value {
+    border-color: color-mix(in srgb, var(--datha-primary-600) 60%, transparent);
+  }
+
+  &[aria-expanded='true'] i {
+    transform: rotate(180deg);
+  }
+}
+
+.label {
+  color: var(--page-muted);
+}
+
+.value {
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+// A popup holding controls, not numbers, so a solid card surface keeps it crisp over charts.
+.panel {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  z-index: 15;
+  display: flex;
+  flex-direction: column;
+  min-width: 220px;
+  padding: 6px;
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  background: var(--card-bg);
+  box-shadow: 0 12px 32px color-mix(in srgb, var(--datha-surface-950) 18%, transparent);
+}
+
+.option {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  padding: 7px 8px;
+  border-radius: 8px;
+  font-size: 13px;
+  white-space: nowrap;
+  cursor: pointer;
+
+  &:hover {
+    background: color-mix(in srgb, var(--page-ink) 6%, transparent);
+  }
+
+  input {
+    margin: 0;
+    accent-color: var(--datha-primary-600);
+  }
+}
+
+.swatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+}
+
+.clear {
+  align-self: flex-end;
+  margin-top: 4px;
+}

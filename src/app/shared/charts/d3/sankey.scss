@@ -1,0 +1,52 @@
+:host {
+  position: relative;
+  display: block;
+  min-width: 0;
+}
+
+svg {
+  display: block;
+  max-width: 100%;
+  overflow: visible;
+}
+
+.link {
+  fill: none;
+  stroke-opacity: 0.35;
+  transition: opacity 120ms ease;
+
+  &:hover {
+    stroke-opacity: 0.6;
+  }
+}
+
+.is-dimmed {
+  opacity: 0.12;
+}
+
+.node {
+  cursor: pointer;
+  outline: none;
+  transition: opacity 120ms ease;
+
+  &:focus-visible .bar {
+    stroke: var(--page-ink);
+    stroke-width: 2;
+  }
+}
+
+.hit {
+  fill: none;
+  pointer-events: all;
+}
+
+// A halo keeps a label readable where it crosses a ribbon.
+.label {
+  fill: var(--page-ink);
+  font-size: 12px;
+  paint-order: stroke;
+  stroke: var(--card-bg);
+  stroke-width: 3px;
+  stroke-linejoin: round;
+  pointer-events: none;
+}

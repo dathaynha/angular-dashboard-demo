@@ -1,0 +1,93 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: -16px;
+}
+
+app-filter-bar {
+  flex: 1 1 520px;
+}
+
+.as-of {
+  color: var(--page-muted);
+  font-size: 12px;
+}
+
+.section-head {
+  margin-bottom: 16px;
+
+  h2 {
+    font-size: 20px;
+    font-weight: 650;
+    letter-spacing: -0.01em;
+  }
+
+  p {
+    max-width: 75ch;
+    margin-top: 4px;
+    color: var(--page-copy);
+    font-size: 14px;
+  }
+}
+
+.stack .section-head {
+  margin-bottom: 0;
+}
+
+.kpis {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 150px), 1fr));
+  gap: 16px;
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+// Bars beside the donut where there is room; stacked on a narrow screen.
+.pair > * {
+  display: block;
+  min-width: 0;
+}
+
+.pair {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));
+  gap: 16px;
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 12px 12px 4px;
+}
+
+.table-search {
+  flex: 1 1 220px;
+  max-width: 360px;
+}
+
+.status {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}

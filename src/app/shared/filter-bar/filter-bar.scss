@@ -1,0 +1,42 @@
+:host {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.segmented {
+  display: inline-flex;
+  padding: 3px;
+  border: 1px solid var(--card-border);
+  border-radius: 10px;
+  background: var(--card-bg);
+
+  button {
+    height: 28px;
+    padding: 0 12px;
+    border: 0;
+    border-radius: 7px;
+    background: none;
+    color: var(--page-copy);
+    font-size: 13px;
+    font-weight: 500;
+    white-space: nowrap;
+    cursor: pointer;
+
+    &:hover {
+      color: var(--page-ink);
+    }
+
+    &[aria-checked='true'] {
+      background: var(--page-tint);
+      color: var(--page-kicker);
+      font-weight: 600;
+    }
+  }
+}
+
+.search {
+  flex: 1 1 200px;
+  max-width: 320px;
+}

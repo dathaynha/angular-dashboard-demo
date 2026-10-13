@@ -1,0 +1,39 @@
+<a class="skip-link" href="#main">Skip to content</a>
+
+<main id="main" tabindex="-1">
+  <router-outlet />
+</main>
+
+<!-- The only chrome: a floating rail beside the content (a bottom bar on a phone). -->
+<nav class="dock" aria-label="Page sections and settings">
+  @for (item of nav; track item.id) {
+    <a
+      class="dock__item"
+      routerLink="/"
+      [fragment]="item.id"
+      queryParamsHandling="preserve"
+      [class.is-active]="active() === item.id"
+      [attr.aria-current]="active() === item.id ? 'location' : null"
+      [attr.aria-label]="item.label"
+      [title]="item.label"
+      (click)="go($event, item.id)"
+    >
+      <i [appIcon]="item.icon"></i>
+      <span class="dock__label">{{ item.label }}</span>
+    </a>
+  }
+  <span class="dock__divider" aria-hidden="true"></span>
+  <button
+    type="button"
+    class="dock__item"
+    aria-label="Toggle dark mode"
+    title="Toggle dark mode"
+    (click)="theme.toggle()"
+  >
+    <!-- Both icons render; CSS shows the one for the current theme, so server and client agree. -->
+    <i class="icon-sun" appIcon="sun"></i>
+    <i class="icon-moon" appIcon="moon"></i>
+    <span class="dock__label">Theme</span>
+  </button>
+  <app-demo-panel />
+</nav>

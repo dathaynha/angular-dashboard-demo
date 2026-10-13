@@ -1,0 +1,34 @@
+<p class="kicker">Angular dashboard demo</p>
+<h1>Platform operations dashboard</h1>
+<p class="lead">
+  A working demo of a modern dashboard: KPI cards, five charts and a filterable data table,
+  responsive from phone to wide screen, in light and dark. The data is mock, so feel free to click
+  everything.
+</p>
+<p class="byline">
+  <span
+    >Built by <strong>Ha Quoc Dat</strong>, full-stack developer, 7+ years, 4+ with Angular.</span
+  >
+  <a href="https://github.com/dathaynha/angular-dashboard-demo" target="_blank" rel="noopener">
+    <i appIcon="github"></i> Source
+  </a>
+  <a href="https://dathaynha.github.io/datha-portfolio/" target="_blank" rel="noopener"
+    >Portfolio</a
+  >
+</p>
+
+<ul class="points">
+  @for (point of points; track point.title) {
+    <li>
+      <span class="badge" aria-hidden="true"><i [appIcon]="point.icon"></i></span>
+      <h2>{{ point.title }}</h2>
+      <p>{{ point.text }}</p>
+    </li>
+  }
+</ul>
+
+<ul class="stack" aria-label="Built with">
+  @for (item of stack; track item) {
+    <li>{{ item }}</li>
+  }
+</ul>

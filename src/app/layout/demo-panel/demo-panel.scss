@@ -1,0 +1,122 @@
+@use '../../../styles/glass';
+
+// An overlay, so glass is allowed here.
+:host {
+  display: contents;
+}
+
+// Sits in the rail, so it takes the rail item's shape: a status dot above the state's name.
+.demo-trigger {
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 56px;
+  padding: 0;
+  border: 0;
+  border-radius: 14px;
+  background: none;
+  color: var(--page-copy);
+  font-size: 11px;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+
+  &:hover {
+    background: color-mix(in srgb, var(--page-ink) 7%, transparent);
+    color: var(--page-ink);
+  }
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--datha-green-500);
+}
+
+.is-altered .dot {
+  background: var(--datha-amber-500);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--datha-amber-500) 30%, transparent);
+}
+
+// Beside the rail, level with its middle.
+.panel {
+  position: fixed;
+  inset: 50% auto auto calc(var(--rail-left) + var(--rail-width) + 12px);
+  width: min(340px, calc(100vw - 32px));
+  margin: 0;
+  padding: 16px;
+  transform: translateY(-50%);
+  color: var(--page-ink);
+  @include glass.surface;
+}
+
+fieldset {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+legend {
+  margin-bottom: 8px;
+  padding: 0;
+  font-weight: 600;
+}
+
+.option {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 8px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+
+  &:hover,
+  &:has(:checked) {
+    background: var(--page-tint);
+  }
+
+  input {
+    margin: 3px 0 0;
+    accent-color: var(--datha-primary-600);
+  }
+
+  &__label {
+    display: block;
+    font-weight: 600;
+  }
+
+  &__hint {
+    display: block;
+    color: var(--page-copy);
+    font-size: 13px;
+  }
+}
+
+.note {
+  margin-top: 12px;
+  color: var(--page-muted);
+  font-size: 12px;
+}
+
+// On a phone the rail is a bottom bar, so the panel opens above it.
+@media (max-width: 40rem) {
+  .demo-trigger {
+    width: 52px;
+    height: 50px;
+    font-size: 10px;
+  }
+
+  .panel {
+    inset: auto 0 76px;
+    margin: 0 auto;
+    transform: none;
+  }
+}

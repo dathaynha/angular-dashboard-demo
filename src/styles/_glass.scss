@@ -1,0 +1,43 @@
+// Liquid Glass material, ported from @datha/platform-ui `styles/_glass.scss`.
+@mixin material($blur, $bg, $radius) {
+  -webkit-backdrop-filter: blur(var(#{$blur})) saturate(var(--datha-glass-saturation))
+    brightness(var(--datha-glass-brightness));
+  backdrop-filter: blur(var(#{$blur})) saturate(var(--datha-glass-saturation))
+    brightness(var(--datha-glass-brightness));
+  background-color: var(#{$bg});
+  border: 1px solid var(--datha-glass-edge);
+  border-radius: var(#{$radius});
+  box-shadow:
+    inset 0 1px 0 var(--datha-glass-highlight),
+    var(--datha-glass-shadow);
+}
+
+@mixin surface {
+  @include material(
+    --datha-glass-blur-surface,
+    --datha-glass-bg-surface,
+    --datha-glass-radius-surface
+  );
+}
+
+@mixin control {
+  @include material(
+    --datha-glass-blur-control,
+    --datha-glass-bg-control,
+    --datha-glass-radius-control
+  );
+}
+
+// Glossy top reflection. The host must not hold a popup: it clips.
+@mixin sheen {
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--datha-glass-sheen);
+    pointer-events: none;
+  }
+}

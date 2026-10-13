@@ -1,0 +1,130 @@
+<div class="scroll" [class.is-stale]="stale()" [attr.aria-busy]="state() === 'loading' || stale()">
+  <table>
+    <caption class="visually-hidden">
+      {{
+        caption()
+      }}
+    </caption>
+    <thead>
+      <tr>
+        @for (column of columns(); track column.key) {
+          <th
+            scope="col"
+            [attr.aria-sort]="ariaSort(column)"
+            [class.is-end]="column.align === 'end'"
+          >
+            @if (column.sortable) {
+              <button
+                type="button"
+                class="sort"
+                [class.is-active]="sort() === column.key"
+                (click)="toggleSort(column)"
+              >
+                {{ column.header }}
+                <i
+                  [appIcon]="
+                    sort() !== column.key ? 'sort' : dir() === 'asc' ? 'arrow-up' : 'arrow-down'
+                  "
+                ></i>
+              </button>
+            } @else {
+              {{ column.header }}
+            }
+          </th>
+        }
+      </tr>
+    </thead>
+    <tbody>
+      @switch (state()) {
+        @case ('loading') {
+          @for (row of skeletonRows(); track $index) {
+            <tr class="skeleton-row">
+              @for (column of columns(); track column.key) {
+                <td><span class="skeleton"></span></td>
+              }
+            </tr>
+          }
+        }
+        @case ('empty') {
+          <tr class="message-row">
+            <td [attr.colspan]="columns().length">
+              <app-state-message [heading]="emptyHeading()" [text]="emptyText()">
+                <ng-content select="[emptyActions]" />
+              </app-state-message>
+            </td>
+          </tr>
+        }
+        @case ('error') {
+          <tr class="message-row">
+            <td [attr.colspan]="columns().length">
+              <app-state-message kind="error" heading="Couldn't load requests" [text]="errorText()">
+                <button type="button" class="btn" (click)="retry.emit()">
+                  <i appIcon="refresh"></i> Retry
+                </button>
+              </app-state-message>
+            </td>
+          </tr>
+        }
+        @default {
+          @for (row of rows(); track rowKey()(row)) {
+            <tr
+              class="row"
+              tabindex="0"
+              [class.is-selected]="selected() === rowKey()(row)"
+              [attr.aria-selected]="selected() === rowKey()(row)"
+              (click)="rowActivate.emit(row)"
+              (keydown.enter)="rowActivate.emit(row)"
+            >
+              @for (column of columns(); track column.key) {
+                <td [class.is-end]="column.align === 'end'">
+                  @if (templates().get(column.key); as cell) {
+                    <ng-container *ngTemplateOutlet="cell; context: { $implicit: row }" />
+                  } @else {
+                    {{ column.text?.(row) }}
+                  }
+                </td>
+              }
+            </tr>
+          }
+        }
+      }
+    </tbody>
+  </table>
+</div>
+
+<nav class="pager" aria-label="Pages">
+  <span class="range num" aria-live="polite">{{ state() === 'ready' ? range() : '' }}</span>
+  <label class="size">
+    Rows
+    <select
+      [value]="pageSize()"
+      (change)="pageSizeChange.emit(+$any($event.target).value)"
+      [disabled]="state() !== 'ready'"
+    >
+      @for (size of pageSizes(); track size) {
+        <option [value]="size" [selected]="size === pageSize()">{{ size }}</option>
+      }
+    </select>
+  </label>
+  <div class="steps">
+    <button
+      type="button"
+      class="btn btn--icon"
+      aria-label="Previous page"
+      [disabled]="state() !== 'ready' || page() <= 1"
+      (click)="goTo(page() - 1)"
+    >
+      <i appIcon="chevron-left"></i>
+    </button>
+    <span class="num">{{ page() }} / {{ lastPage() }}</span>
+    <button
+      type="button"
+      class="btn btn--icon"
+      aria-label="Next page"
+      [disabled]="state() !== 'ready' || page() >= lastPage()"
+      (click)="goTo(page() + 1)"
+    >
+      <i appIcon="chevron-right"></i>
+    </button>
+  </div>
+</nav>

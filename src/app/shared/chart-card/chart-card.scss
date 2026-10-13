@@ -1,0 +1,117 @@
+:host {
+  display: block;
+  height: 100%;
+  min-width: 0;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  height: 100%;
+  padding: 16px 16px 12px;
+}
+
+.head {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.titles {
+  min-width: 0;
+
+  h2 {
+    font-size: 15px;
+    font-weight: 600;
+  }
+
+  p {
+    color: var(--page-muted);
+    font-size: 13px;
+  }
+}
+
+.actions {
+  display: flex;
+  flex: none;
+  gap: 2px;
+  align-items: center;
+}
+
+// Positioned, so a chart's tooltip is placed relative to it.
+.body {
+  position: relative;
+  min-width: 0;
+}
+
+.ready {
+  height: 100%;
+  transition: opacity 0.2s ease;
+
+  &.is-stale {
+    opacity: 0.5;
+  }
+}
+
+.skeleton-chart {
+  display: flex;
+  gap: 8px;
+  align-items: flex-end;
+  height: 100%;
+  padding: 8px 4px 0;
+  border-bottom: 1px solid var(--chart-grid);
+
+  .skeleton {
+    flex: 1;
+    border-radius: 4px 4px 0 0;
+  }
+}
+
+.table-wrap {
+  height: 100%;
+  overflow: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+}
+
+th,
+td {
+  padding: 6px 10px;
+  border-bottom: 1px solid var(--card-border);
+  text-align: start;
+  white-space: nowrap;
+}
+
+th {
+  position: sticky;
+  top: 0;
+  background: var(--card-bg);
+  color: var(--page-muted);
+  font-weight: 600;
+}
+
+.foot {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 20px;
+}
+
+.legend {
+  min-width: 0;
+}
+
+.library {
+  margin-left: auto;
+  color: var(--page-muted);
+  font-size: 12px;
+}

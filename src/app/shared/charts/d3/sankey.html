@@ -1,0 +1,68 @@
+<svg
+  [class.is-tracing]="lit() !== null"
+  [attr.width]="width()"
+  [attr.height]="svgHeight()"
+  [attr.viewBox]="'0 0 ' + width() + ' ' + svgHeight()"
+  role="group"
+  [attr.aria-label]="label() + ': ' + summary()"
+  (pointerleave)="clear()"
+>
+  <g transform="translate(8, 8)">
+    @for (item of layout().links; track item.key) {
+      <path
+        class="link"
+        [class.is-dimmed]="lit() !== null && !lit()!.links.has(item.key)"
+        [attr.d]="item.d"
+        [attr.stroke]="item.color"
+        [attr.stroke-width]="item.link.width"
+        [attr.data-link]="item.key"
+        (pointermove)="showLink(item.link, item.color, $event)"
+        (pointerleave)="clear()"
+      />
+    }
+    @for (node of layout().nodes; track node.id) {
+      @let p = place(node);
+      @let area = hitArea(node, p);
+      <g
+        class="node"
+        [class.is-dimmed]="lit() !== null && !lit()!.nodes.has(node.id)"
+        tabindex="0"
+        role="img"
+        [attr.aria-label]="nodeName(node)"
+        [attr.data-node]="node.id"
+        (pointerenter)="showNode(node)"
+        (focus)="showNode(node)"
+        (blur)="clear()"
+      >
+        <!-- Bar and label are one target: the label is what people aim at. -->
+        <rect
+          class="hit"
+          [attr.x]="area.x"
+          [attr.y]="area.y"
+          [attr.width]="area.width"
+          [attr.height]="area.height"
+        />
+        <rect
+          class="bar"
+          [attr.x]="node.x0"
+          [attr.y]="node.y0"
+          [attr.width]="node.x1 - node.x0"
+          [attr.height]="node.y1 - node.y0"
+          [attr.fill]="nodeColor(node)"
+          rx="3"
+        />
+        <text
+          class="label"
+          [attr.x]="p.x"
+          [attr.y]="p.y"
+          [attr.text-anchor]="p.anchor"
+          [attr.transform]="p.rotate ? 'rotate(90 ' + p.x + ' ' + p.y + ')' : null"
+          dominant-baseline="middle"
+        >
+          {{ node.label }}
+        </text>
+      </g>
+    }
+  </g>
+</svg>
+<app-chart-tooltip [tooltip]="tooltip()" [bounds]="width()" />

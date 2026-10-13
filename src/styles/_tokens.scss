@@ -1,0 +1,193 @@
+// Ported from @datha/platform-ui `styles/_tokens.scss` (v0.14.1): the subset this
+// dashboard uses. The library lives on a private feed GitHub Actions cannot reach.
+// Light and dark resolve through `color-scheme`, which `.dark` on <html> flips.
+:root {
+  color-scheme: light;
+
+  --datha-primary-50: #fdf2f8;
+  --datha-primary-200: #fbcfe8;
+  --datha-primary-300: #f9a8d4;
+  --datha-primary-400: #f637e3;
+  --datha-primary-500: #e879f9;
+  --datha-primary-600: #8514f5;
+  --datha-primary-900: #0546ff;
+  --datha-primary-950: #1e1b4b;
+  --datha-primary-700: #8001c6;
+
+  --datha-red-300: #fca5a5;
+  --datha-red-500: #ef4444;
+  --datha-red-600: #dc2626;
+  --datha-green-300: #86efac;
+  --datha-green-500: #22c55e;
+  --datha-green-600: #16a34a;
+  --datha-green-700: #15803d;
+  --datha-amber-500: #f59e0b;
+  --datha-amber-600: #d97706;
+
+  --datha-surface-0: #ffffff;
+  --datha-surface-50: light-dark(#f8fafc, #fafafa);
+  --datha-surface-100: light-dark(#f1f5f9, #f4f4f5);
+  --datha-surface-200: light-dark(#e2e8f0, #e4e4e7);
+  --datha-surface-300: light-dark(#cbd5e1, #d4d4d8);
+  --datha-surface-400: light-dark(#94a3b8, #a1a1aa);
+  --datha-surface-500: light-dark(#64748b, #71717a);
+  --datha-surface-600: light-dark(#475569, #52525b);
+  --datha-surface-700: light-dark(#334155, #3f3f46);
+  --datha-surface-800: light-dark(#1e293b, #27272a);
+  --datha-surface-900: light-dark(#0f172a, #18181b);
+  --datha-surface-950: light-dark(#020617, #09090b);
+
+  --datha-primary: light-dark(var(--datha-primary-500), var(--datha-primary-400));
+
+  --datha-glass-blur-surface: 14px;
+  --datha-glass-blur-control: 8px;
+  --datha-glass-saturation: 170%;
+  --datha-glass-brightness: 1.12;
+  --datha-glass-sheen: linear-gradient(
+    180deg,
+    color-mix(in srgb, #fff 45%, transparent),
+    color-mix(in srgb, #fff 12%, transparent) 28%,
+    transparent 65%
+  );
+  --datha-glass-bg-surface: color-mix(in srgb, var(--datha-surface-0) 45%, transparent);
+  --datha-glass-bg-control: color-mix(in srgb, var(--datha-surface-0) 40%, transparent);
+  --datha-glass-edge: color-mix(in srgb, var(--datha-surface-0) 55%, transparent);
+  --datha-glass-control-edge: color-mix(in srgb, var(--datha-surface-400) 55%, transparent);
+  --datha-glass-highlight: color-mix(in srgb, #fff 65%, transparent);
+  --datha-glass-shadow: 0 8px 24px color-mix(in srgb, var(--datha-surface-950) 8%, transparent);
+  --datha-glass-radius-surface: 1.25rem;
+  --datha-glass-radius-control: 9999px;
+
+  // Page recipe, from shell-frontend's `.shell-page-root`.
+  --page-bg:
+    radial-gradient(
+      circle at 16% 10%,
+      color-mix(in srgb, var(--datha-primary-300) 26%, transparent) 0 18rem,
+      transparent 34rem
+    ),
+    radial-gradient(
+      circle at 88% 14%,
+      color-mix(in srgb, var(--datha-primary-900) 12%, transparent) 0 16rem,
+      transparent 32rem
+    ),
+    linear-gradient(
+      145deg,
+      var(--datha-surface-0) 0%,
+      var(--datha-primary-50) 44%,
+      var(--datha-surface-50) 100%
+    );
+  --page-ambient: conic-gradient(
+    from 220deg at 50% 45%,
+    color-mix(in srgb, var(--datha-primary-50) 86%, white) 0deg,
+    color-mix(in srgb, var(--datha-primary-200) 54%, white) 76deg,
+    color-mix(in srgb, var(--datha-primary-600) 24%, white) 152deg,
+    color-mix(in srgb, #0546ff 18%, white) 306deg,
+    color-mix(in srgb, var(--datha-primary-50) 86%, white) 360deg
+  );
+  --page-ambient-opacity: 0.36;
+  --page-noise-opacity: 0.035;
+  --page-ink: var(--datha-surface-950);
+  --page-copy: var(--datha-surface-600);
+  --page-muted: var(--datha-surface-500);
+  --page-kicker: var(--datha-primary-600);
+  --page-link: var(--datha-primary-600);
+  --page-shadow: 0 18px 56px color-mix(in srgb, var(--datha-primary-950) 8%, transparent);
+  --page-tint: color-mix(in srgb, var(--datha-primary-500) 12%, transparent);
+
+  // Solid surfaces for cards, charts and tables: no blur behind dense numbers.
+  --card-bg: var(--datha-surface-0);
+  --card-border: var(--datha-surface-200);
+  --card-shadow: 0 1px 2px color-mix(in srgb, var(--datha-surface-950) 6%, transparent);
+  --card-radius: 14px;
+
+  // Charts. Categorical slots validated (dataviz validator) on the light card
+  // surface #fff and the dark one #18181b; three light slots sit below 3:1, so
+  // every chart carries a legend and a table view. Red is not a series colour.
+  --chart-1: #2a78d6;
+  --chart-2: #eb6834;
+  --chart-3: #1baf7a;
+  --chart-4: #eda100;
+  --chart-5: #e87ba4;
+  --chart-6: #008300;
+  --chart-7: #6250d6;
+  --chart-accent: var(--datha-primary-600);
+  --chart-grid: var(--datha-surface-200);
+  --chart-axis: var(--datha-surface-500);
+  --status-good: #0ca30c;
+  --status-warning: #fab219;
+  --status-serious: #ec835a;
+  --status-critical: #d03b3b;
+  --skeleton: var(--datha-surface-100);
+  // Delta text: readable steps, always beside an arrow, never colour alone.
+  --delta-good: var(--datha-green-700);
+  --delta-bad: #b91c1c;
+  --skeleton-shine: var(--datha-surface-50);
+}
+
+.dark {
+  color-scheme: dark;
+
+  --datha-glass-brightness: 1.08;
+  --datha-glass-sheen: linear-gradient(
+    180deg,
+    color-mix(in srgb, #fff 14%, transparent),
+    color-mix(in srgb, #fff 4%, transparent) 28%,
+    transparent 65%
+  );
+  --datha-glass-bg-surface: color-mix(in srgb, var(--datha-surface-900) 58%, transparent);
+  --datha-glass-bg-control: color-mix(in srgb, var(--datha-surface-800) 46%, transparent);
+  --datha-glass-edge: color-mix(in srgb, #fff 14%, transparent);
+  --datha-glass-control-edge: color-mix(in srgb, #fff 18%, transparent);
+  --datha-glass-highlight: color-mix(in srgb, #fff 12%, transparent);
+  --datha-glass-shadow: 0 8px 24px color-mix(in srgb, #000 35%, transparent);
+
+  --page-bg:
+    radial-gradient(
+      circle at 14% 10%,
+      color-mix(in srgb, var(--datha-primary-600) 18%, transparent) 0 18rem,
+      transparent 34rem
+    ),
+    radial-gradient(
+      circle at 86% 14%,
+      color-mix(in srgb, #0546ff 14%, transparent) 0 16rem,
+      transparent 32rem
+    ),
+    linear-gradient(145deg, var(--datha-surface-950) 0%, #100628 50%, #07111f 100%);
+  --page-ambient: conic-gradient(
+    from 220deg at 50% 45%,
+    #0f172a 0deg,
+    #1e1b4b 76deg,
+    #5c44e4 152deg,
+    #8001c6 228deg,
+    #0546ff 306deg,
+    #0f172a 360deg
+  );
+  --page-ambient-opacity: 0.5;
+  --page-noise-opacity: 0.065;
+  --page-ink: var(--datha-surface-0);
+  --page-copy: var(--datha-surface-300);
+  --page-muted: var(--datha-surface-400);
+  --page-kicker: var(--datha-primary-300);
+  --page-link: var(--datha-primary-300);
+  --page-shadow: 0 18px 56px color-mix(in srgb, var(--datha-surface-950) 42%, transparent);
+  --page-tint: color-mix(in srgb, var(--datha-primary-500) 18%, transparent);
+
+  --card-bg: var(--datha-surface-900);
+  --card-border: var(--datha-surface-800);
+  --card-shadow: 0 1px 2px color-mix(in srgb, #000 40%, transparent);
+
+  --chart-1: #3987e5;
+  --chart-2: #d95926;
+  --chart-3: #199e70;
+  --chart-4: #c98500;
+  --chart-5: #d55181;
+  --chart-6: #008300;
+  --chart-7: #9085e9;
+  --chart-accent: var(--datha-primary-400);
+  --chart-grid: var(--datha-surface-800);
+  --chart-axis: var(--datha-surface-400);
+  --skeleton: var(--datha-surface-800);
+  --delta-good: #4ade80;
+  --delta-bad: #f87171;
+  --skeleton-shine: var(--datha-surface-700);
+}
